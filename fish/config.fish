@@ -22,15 +22,16 @@ end
 #   set_color green; echo '> '
 # end
 
-oh-my-posh init fish --config ~/.config/posh_theme.omp.json | source
+if test -f ~/.config/posh_theme.omp.json; and type -q oh-my-posh
+    oh-my-posh init fish --config ~/.config/posh_theme.omp.json | source
+end
 
 # nvim
-set -x EDITOR nvim
-set -x VISUAL nvim
+if type -q nvim
+    set -x EDITOR nvim
+    set -x VISUAL nvim
+end
 
-# ssh
-if test -z "$SSH_AUTH_SOCK"
-    eval (ssh-agent -c)
-    ssh-add ~/.ssh/github
-    ssh-add ~/.ssh/racknerd
+if test -f custom.fish
+    source custom.fish
 end
