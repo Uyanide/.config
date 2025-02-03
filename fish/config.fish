@@ -32,6 +32,9 @@ if type -q nvim
     set -x VISUAL nvim
 end
 
-if test -f custom.fish
-    source custom.fish
+if test -f ~/.config/fish/custom.fish
+    echo "Sourcing custom.fish"
+    source ~/.config/fish/custom.fish
+else
+    echo "custom.fish not found"
 end
