@@ -87,5 +87,13 @@
             "type": "prompt"
         }
     ],
+    "transient_prompt": {
+        "background": "transparent",
+        "foreground_templates": [
+            "{{ if gt .Code 0 }}#ef5350{{ end }}"
+        ],
+        "foreground": "#47bfff",
+        "template": "# "
+    },
     "version": 3
 }
