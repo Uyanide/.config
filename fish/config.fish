@@ -33,8 +33,5 @@ if type -q nvim
 end
 
 if test -f ~/.config/fish/custom.fish
-    echo "Sourcing custom.fish"
     source ~/.config/fish/custom.fish
-else
-    echo "custom.fish not found"
 end
