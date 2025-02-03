@@ -22,7 +22,7 @@ end
 #   set_color green; echo '> '
 # end
 
-~/.local/bin/oh-my-posh init fish --config ~/.config/sync_config/posh_theme.omp.json | source
+oh-my-posh init fish --config ~/.config/posh_theme.omp.json | source
 
 # nvim
 set -x EDITOR nvim
