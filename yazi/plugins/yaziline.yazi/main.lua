@@ -14,12 +14,16 @@ local function setup(_, options)
       separator_open = options.separator_open or separators[1],
       separator_close = options.separator_close or separators[2],
       separator_open_thin = options.separator_open_thin or separators[3],
-      separator_close_thin = options.separator_close_thin or separators[4]
+      separator_close_thin = options.separator_close_thin or separators[4],
+      separator_head = options.separator_head or "",
+      separator_tail = options.separator_tail or ""
     },
     select_symbol = options.select_symbol or "S",
     yank_symbol = options.yank_symbol or "Y",
     filename_max_length = options.filename_max_length or 24,
-    filename_trim_length = options.filename_trim_length or 6
+    filename_truncate_length = options.filename_truncate_length or 6,
+    filename_truncate_separator = options.filename_truncate_separator or "...",
+    color = options.color or nil
   }
 
   local current_separator_style = config.separator_styles
@@ -35,18 +39,46 @@ local function setup(_, options)
     end
 
     local style = self:style()
-    return ui.Span(" " .. mode .. " "):style(style)
+    return ui.Line({
+      ui.Span(current_separator_style.separator_head):fg(config.color or style.main.bg),
+      ui.Span(" " .. mode .. " "):fg(THEME.which.mask.bg):bg(config.color or style.main.bg),
+    })
   end
 
-	function Status:size()
+  function Status:size()
     local h = self._tab.current.hovered
     if not h then
-        return ui.Line {}
+      return ui.Line {}
     end
 
     local style = self:style()
     return ui.Span(current_separator_style.separator_close .. " " .. ya.readable_size(h:size() or h.cha.len) .. " ")
-        :fg(style.bg):bg(THEME.status.separator_style.bg)
+        :fg(config.color or style.main.bg):bg(THEME.which.separator_style.fg)
+  end
+
+  function Status:utf8_sub(str, start_char, end_char)
+    local start_byte = utf8.offset(str, start_char)
+    local end_byte = end_char and (utf8.offset(str, end_char + 1) - 1) or #str
+
+    if not start_byte or not end_byte then
+      return ""
+    end
+
+    return string.sub(str, start_byte, end_byte)
+  end
+
+  function Status:truncate_name(filename, max_length)
+    local base_name, extension = filename:match("^(.-)(%.[^%.]+)$")
+    base_name = base_name or filename
+    extension = extension or ""
+
+    if utf8.len(base_name) > max_length then
+      base_name = self:utf8_sub(base_name, 1, config.filename_truncate_length) ..
+        config.filename_truncate_separator ..
+        self:utf8_sub(base_name, -config.filename_truncate_length)
+    end
+
+    return base_name .. extension
   end
 
   function Status:name()
@@ -55,14 +87,12 @@ local function setup(_, options)
       return ui.Line {}
     end
 
-    local trimmed_name = #h.name > config.filename_max_length and
-        (string.sub(h.name, 1, config.filename_trim_length) .. "..." .. string.sub(h.name, -config.filename_trim_length)) or
-        h.name
+    local truncated_name = self:truncate_name(h.name, config.filename_max_length)
 
     local style = self:style()
     return ui.Line {
-      ui.Span(current_separator_style.separator_close .. " "):fg(THEME.status.separator_style.fg),
-      ui.Span(trimmed_name):fg(style.bg),
+      ui.Span(current_separator_style.separator_close .. " "):fg(THEME.which.separator_style.fg),
+      ui.Span(truncated_name):fg(config.color or style.main.bg),
     }
   end
 
@@ -71,34 +101,31 @@ local function setup(_, options)
     local files_selected = #cx.active.selected
     local files_is_cut = cx.yanked.is_cut
 
-    local selected_fg = files_selected > 0 and THEME.manager.count_selected.bg or THEME.status.separator_style.fg
+    local selected_fg = files_selected > 0 and THEME.manager.count_selected.bg or THEME.which.separator_style.fg
     local yanked_fg = files_yanked > 0 and
         (files_is_cut and THEME.manager.count_cut.bg or THEME.manager.count_copied.bg) or
-        THEME.status.separator_style.fg
+        THEME.which.separator_style.fg
 
     local yanked_text = files_yanked > 0 and config.yank_symbol .. " " .. files_yanked or config.yank_symbol .. " 0"
 
     return ui.Line {
-      ui.Span(" " .. current_separator_style.separator_close_thin .. " "):fg(THEME.status.separator_style.fg),
+      ui.Span(" " .. current_separator_style.separator_close_thin .. " "):fg(
+      THEME.which.separator_style.fg),
       ui.Span(config.select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
       ui.Span(yanked_text .. "  "):fg(yanked_fg),
     }
   end
 
-	function Status:modified()
+  function Status:modified()
     local hovered = cx.active.current.hovered
-    if not hovered then
-        return ui.Line {}  -- Return empty line if no file is hovered
-    end
-    
     local cha = hovered.cha
-    local time = (cha.mtime or 0) // 1  -- Use mtime instead of modified
+    local time = (cha.mtime or 0) // 1
 
-    return ui.Span(os.date("%Y-%m-%d %H:%M", time) .. " " .. current_separator_style.separator_open_thin .. " ")
-        :fg(THEME.status.separator_style.fg)
-end
+    return ui.Span(os.date("%Y-%m-%d %H:%M", time) .. " " .. current_separator_style.separator_open_thin .. " "):fg(
+      THEME.which.separator_style.fg)
+  end
 
-  function Status:percentage()
+  function Status:percent()
     local percent = 0
     local cursor = self._tab.current.cursor
     local length = #self._tab.current.files
@@ -111,14 +138,14 @@ end
     elseif percent == 100 then
       percent = "  Bot "
     else
-      percent = string.format(" %3d%% ", percent)
+      percent = string.format(" %2d%% ", percent)
     end
 
     local style = self:style()
     return ui.Line {
-      ui.Span(" " .. current_separator_style.separator_open):fg(THEME.status.separator_style.fg),
-      ui.Span(percent):fg(style.bg):bg(THEME.status.separator_style.bg),
-      ui.Span(current_separator_style.separator_open):fg(style.bg):bg(THEME.status.separator_style.bg)
+      ui.Span(" " .. current_separator_style.separator_open):fg(THEME.which.separator_style.fg),
+      ui.Span(percent):fg(config.color or style.main.bg):bg(THEME.which.separator_style.fg),
+      ui.Span(current_separator_style.separator_open):fg(config.color or style.main.bg):bg(THEME.which.separator_style.fg)
     }
   end
 
@@ -127,11 +154,14 @@ end
     local length = #self._tab.current.files
 
     local style = self:style()
-    return ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):style(style)
+    return ui.Line({
+      ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):fg(THEME.which.mask.bg):bg(config.color or style.main.bg),
+      ui.Span(current_separator_style.separator_tail):fg(config.color or style.main.bg),
+    })
   end
 
   Status:children_add(Status.files, 4000, Status.LEFT)
-  Status:children_add(Status.mtime, 0, Status.RIGHT)
+  Status:children_add(Status.modified, 0, Status.RIGHT)
 end
 
 return { setup = setup }

@@ -7,8 +7,13 @@ function fish_prompt -d "Write out the prompt"
 end
 
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    # no greating
     set fish_greeting
+
+    # oh-my-posh
+    if test -f ~/.config/posh_theme.omp.json; and type -q oh-my-posh
+        oh-my-posh init fish --config ~/.config/posh_theme.omp.json | source
+    end
 end
 
 if test -d ~/.local/bin
@@ -17,18 +22,8 @@ if test -d ~/.local/bin
     end
 end
 
-# starship init fish | source
 if test -f ~/.cache/ags/user/generated/terminal/sequences.txt
     cat ~/.cache/ags/user/generated/terminal/sequences.txt
-end
-
-# function fish_prompt
-#   set_color cyan; echo (pwd)
-#   set_color green; echo '> '
-# end
-
-if test -f ~/.config/posh_theme.omp.json; and type -q oh-my-posh
-    oh-my-posh init fish --config ~/.config/posh_theme.omp.json | source
 end
 
 # nvim
