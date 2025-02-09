@@ -12,3 +12,5 @@ map("n", "<leader>sh", "<C-w>s")
 
 -- no highlight
 map("n", "<leader>nh", ":nohl<CR>")
+
+map("i", "jk", "<ESC>")
