@@ -1,14 +1,3 @@
--- return {
---   "catppuccin/nvim",
---   as = "catppuccin",
---   config = function()
---     require("catppuccin").setup({
---       flavour = "mocha",
---       transparent_background = true,
---     })
---   end,
--- }
-
 return {
   {
     "catppuccin/nvim",
@@ -24,3 +13,19 @@ return {
     },
   },
 }
+
+-- return {
+--   {
+--     "folke/tokyonight.nvim",
+--     lazy = true,
+--     opts = {
+--       style = "moon",
+--     },
+--   },
+--   {
+--     "LazyVim/LazyVim",
+--     opts = {
+--       colorscheme = "tokyonight",
+--     },
+--   },
+-- }
