@@ -11,19 +11,19 @@ if status is-interactive
     set fish_greeting
 
     # oh-my-posh
-    if test -f ~/.config/posh_theme.omp.json; and type -q oh-my-posh
-        oh-my-posh init fish --config ~/.config/posh_theme.omp.json | source
+    if test -f $HOME/.config/posh_theme.omp.json; and type -q oh-my-posh
+        oh-my-posh init fish --config $HOME/.config/posh_theme.omp.json | source
     end
 end
 
-if test -d ~/.local/bin
-    if not contains ~/.local/bin $PATH
-        set -x PATH ~/.local/bin $PATH
+if test -d $HOME/.local/bin
+    if not contains $HOME/.local/bin $PATH
+        set -x PATH $HOME/.local/bin $PATH
     end
 end
 
-if test -f ~/.cache/ags/user/generated/terminal/sequences.txt
-    cat ~/.cache/ags/user/generated/terminal/sequences.txt
+if test -f $HOME/.cache/ags/user/generated/terminal/sequences.txt
+    cat $HOME/.cache/ags/user/generated/terminal/sequences.txt
 end
 
 # nvim
@@ -32,6 +32,10 @@ if type -q nvim
     set -x VISUAL nvim
 end
 
-if test -f ~/.config/fish/custom.fish
-    source ~/.config/fish/custom.fish
+if test -d $HOME/.config/fish/custom
+    for file in $HOME/.config/fish/custom/*.fish
+        if test -f $file
+            source $file
+        end
+    end
 end
