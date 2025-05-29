@@ -22,6 +22,12 @@ if test -d $HOME/.local/bin
     end
 end
 
+if test -d $HOME/bin
+    if not contains $HOME/bin $PATH
+        set -x PATH $HOME/bin $PATH
+    end
+end
+
 if test -f $HOME/.cache/ags/user/generated/terminal/sequences.txt
     cat $HOME/.cache/ags/user/generated/terminal/sequences.txt
 end
@@ -30,6 +36,11 @@ end
 if type -q nvim
     set -x EDITOR nvim
     set -x VISUAL nvim
+end
+
+# cargo
+if test -f $HOME/.cargo/env.fish
+    source $HOME/.cargo/env.fish
 end
 
 if test -d $HOME/.config/fish/custom
