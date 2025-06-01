@@ -7,9 +7,9 @@ end
 if type -q fastfetch
     alias ff="fastfetch"
 
-    if test -f "$HOME/.config/fastfetch/short.jsonc"
-        alias ff-short="fastfetch -c $HOME/.config/fastfetch/short.jsonc"
+    if test -f "$HOME/.config/fastfetch/brief.jsonc"
+        alias ff-brief="fastfetch -c $HOME/.config/fastfetch/brief.jsonc"
     else
-        alias ff-short=ff
+        alias ff-brief=ff
     end
 end
