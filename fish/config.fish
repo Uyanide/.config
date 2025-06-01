@@ -1,6 +1,8 @@
 if status is-interactive
     # no greeting
     set fish_greeting
+
+    alias ls="ls --hyperlink=auto --color=auto"
 end
 
 if test -d $HOME/.local/bin
