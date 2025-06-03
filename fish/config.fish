@@ -7,13 +7,13 @@ end
 
 if test -d $HOME/.local/bin
     if not contains $HOME/.local/bin $PATH
-        set -x PATH $HOME/.local/bin $PATH
+        fish_add_path $HOME/.local/bin
     end
 end
 
 if test -d $HOME/bin
     if not contains $HOME/bin $PATH
-        set -x PATH $HOME/bin $PATH
+        fish_add_path $HOME/bin
     end
 end
 
