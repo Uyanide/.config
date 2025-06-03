@@ -3,7 +3,7 @@ if not status is-interactive
 end
 
 if not set -q fetch_logo_type
-    # "auto" for images, "raw" for symbols, "builtin" for distros
+    # "auto" for images, "raw" for symbols, "builtin" for distros, "sixel" for raw sixel files
     set -g fetch_logo_type "auto"
 end
 
