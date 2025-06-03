@@ -28,6 +28,14 @@ if test -f $HOME/.cargo/env.fish
     source $HOME/.cargo/env.fish
 end
 
+if test -d $HOME/.config/fish/prev.d
+    for file in $HOME/.config/fish/prev.d/*.fish
+        if test -f $file
+            source $file
+        end
+    end
+end
+
 if test -d $HOME/.config/fish/post.d
     for file in $HOME/.config/fish/post.d/*.fish
         if test -f $file
