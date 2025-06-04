@@ -1,0 +1,5 @@
+*
+!.gitignore
+!zoxide.fish
+!prompt.fish
+!ssh-agent.fish
