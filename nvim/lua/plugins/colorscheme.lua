@@ -2,7 +2,7 @@ return {
   {
     "catppuccin/nvim",
     opts = {
-      flavor = "macchiato",
+      flavor = "mocah",
       transparent_background = true,
       styles = {
         functions = { "bold" },

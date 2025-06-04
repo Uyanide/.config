@@ -1,0 +1,12 @@
+theme = catppuccin-mocha
+
+background-opacity = 0.75
+background-blur = true
+
+window-padding-x = 10
+window-padding-y = 10
+
+keybind = ctrl+shift+r=reload_config
+
+# just for fun
+# custom-shader = ~/.config/ghostty/ghostty-shaders/glitchy.glsl

@@ -164,4 +164,4 @@ action = "ResetFontSize"
 [general]
 live_config_reload = true
 working_directory  = "None"
-import             = ["~/.config/alacritty/catppuccin-macchiato.toml"]
+import             = ["~/.config/alacritty/catppuccin-mocha.toml"]
