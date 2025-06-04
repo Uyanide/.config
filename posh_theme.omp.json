@@ -7,7 +7,6 @@
                 {
                     "foreground": "#67bedb",
                     "properties": {
-                        "linux": "",
                         "windows": "\ue62a"
                     },
                     "style": "plain",
