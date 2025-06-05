@@ -5,7 +5,7 @@
             "alignment": "left",
             "segments": [
                 {
-                    "foreground": "#67bedb",
+                    "foreground": "#74c7ec",
                     "properties": {
                         "windows": "\ue62a"
                     },
@@ -14,29 +14,29 @@
                     "type": "os"
                 },
                 {
-                    "foreground": "#11a8ee",
+                    "foreground": "#74c7ec",
                     "style": "plain",
                     "template": " {{.UserName}}",
                     "type": "session"
                 },
                 {
-                    "foreground": "#11a8ee",
+                    "foreground": "#74c7ec",
                     "style": "plain",
                     "template": "@{{.HostName}}",
                     "type": "session"
                 },
                 {
-                    "foreground": "#12aec2",
+                    "foreground": "#94e2d5",
                     "properties": {
                         "folder_separator_icon": "/",
-                        "style": "agnoster_short"
+                        "style": "letter"
                     },
                     "style": "powerline",
                     "template": " \uf07b {{ .Path }} ",
                     "type": "path"
                 },
                 {
-                    "foreground": "#67dbb6",
+                    "foreground": "#a6e3a1",
                     "powerline_symbol": "\ue0b1",
                     "properties": {
                         "branch_icon": " ",
@@ -50,7 +50,7 @@
                     "type": "git"
                 },
                 {
-                    "foreground": "#ffee98",
+                    "foreground": "#f9e2af",
                     "powerline_symbol": "\ue0b1",
                     "template": " \ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
                     "style": "powerline",
@@ -64,15 +64,15 @@
             "newline": true,
             "segments": [
                 {
-                    "foreground": "#cd5e42",
+                    "foreground": "#fab387",
                     "style": "plain",
                     "template": "\ue3bf ",
                     "type": "root"
                 },
                 {
-                    "foreground": "#47bfff",
+                    "foreground": "#74c7ec",
                     "foreground_templates": [
-                        "{{ if gt .Code 0 }}#ef5350{{ end }}"
+                        "{{ if gt .Code 0 }}#f38ba8{{ end }}"
                     ],
                     "properties": {
                         "always_enabled": true
@@ -88,9 +88,9 @@
     "transient_prompt": {
         "background": "transparent",
         "foreground_templates": [
-            "{{ if gt .Code 0 }}#ef5350{{ end }}"
+            "{{ if gt .Code 0 }}#f38ba8{{ end }}"
         ],
-        "foreground": "#47bfff",
+        "foreground": "#74c7ec",
         "template": "# "
     },
     "version": 3
