@@ -7,7 +7,6 @@
                 {
                     "foreground": "#74c7ec",
                     "properties": {
-                        "linux": "\uf303",
                         "windows": "\ue62a"
                     },
                     "style": "plain",
